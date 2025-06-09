@@ -2,169 +2,389 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Katgamind | Tech Landing Page</title>
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1126/1126012.png" type="image/png">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1126/1126012.png" type="image/png" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
   <style>
     body {
-      display: flex;
-      min-height: 100vh;
-      overflow-x: hidden;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f0f2f5;
+      color: #212529;
+      transition: background-color 0.3s, color 0.3s;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
     }
+
+    .dark-mode {
+      background-color: #121212;
+      color: #f1f1f1;
+    }
+
+    /* Navbar fixed top */
+    .navbar {
+      background-color: #212529;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1100;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: white;
+      user-select: none;
+    }
+
+    /* Sidebar fixed below navbar */
     .sidebar {
+      position: fixed;
+      top: 56px; /* height of navbar */
+      left: 0;
       width: 260px;
-      background: linear-gradient(180deg, #212529, #343a40);
+      height: calc(100vh - 56px);
+      background: linear-gradient(to bottom, #212529, #343a40);
       color: #fff;
       padding-top: 1rem;
-      position: fixed;
-      height: 100vh;
       overflow-y: auto;
+      z-index: 1050;
+      display: block;
     }
+
     .sidebar h4 {
       text-align: center;
       margin-bottom: 1rem;
+      user-select: none;
     }
+
     .sidebar a {
       color: #fff;
       padding: 12px 20px;
       display: flex;
       align-items: center;
       text-decoration: none;
-      transition: background 0.3s ease;
+      transition: background 0.3s;
+      cursor: pointer;
+      user-select: none;
     }
-    .sidebar a:hover, .sidebar a.active {
+
+    .sidebar a:hover,
+    .sidebar a.active {
       background-color: #495057;
       border-left: 4px solid #ffc107;
+      color: #ffc107;
+      text-decoration: none;
     }
+
     .sidebar i {
       margin-right: 10px;
+      font-size: 1.2rem;
     }
+
+    /* Main content with sidebar offset */
     .main {
       margin-left: 260px;
-      flex-grow: 1;
+      padding-top: 56px; /* space for fixed navbar */
+      min-height: 100vh;
+      background-color: #fff;
+      transition: background-color 0.3s, color 0.3s;
       display: flex;
       flex-direction: column;
     }
-    .navbar {
-      background-color: #212529;
+
+    .dark-mode .main {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
     }
-    .navbar-brand {
-      font-weight: bold;
-    }
+
     .content {
-      padding: 2rem;
-      background-color: #fff;
       flex-grow: 1;
+      padding: 2rem;
     }
+
     .content-section {
       display: none;
     }
+
     .active-section {
       display: block;
       animation: fadeIn 0.5s ease;
     }
+
     .hero {
       text-align: center;
-      padding: 2rem 1rem;
+      margin-bottom: 2rem;
     }
+
     .hero img {
       max-width: 180px;
     }
+
     .hero h1 {
-      margin-top: 1rem;
       font-size: 2.5rem;
-      font-weight: 600;
+      margin-top: 1rem;
     }
+
     .hero p {
       font-size: 1.2rem;
-      color: #555;
     }
+
     @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(10px);}
-      to {opacity: 1; transform: translateY(0);}
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
+
+    /* Mobile menu toggle button */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1150;
+      background: #212529;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+    }
+
     @media (max-width: 768px) {
       .sidebar {
         display: none;
       }
+
       .main {
         margin-left: 0;
+        padding-top: 56px;
+      }
+
+      .mobile-menu {
+        display: block;
       }
     }
+
+    .mode-toggle,
+    .language-toggle {
+      margin-left: 10px;
+      color: white;
+      border-color: white;
+    }
+
+    .mode-toggle:hover,
+    .language-toggle:hover {
+      background-color: #495057;
+      border-color: #ffc107;
+      color: #ffc107;
+    }
+/* Hide title on mobile */
+@media (max-width: 768px) {
+  .navbar-brand {
+    color: #212529;
+  }
+}
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h4><i class="bi bi-layout-text-sidebar"></i> Menu</h4>
-    <a href="#" onclick="showSection('programming')"><i class="bi bi-code-slash"></i> Programming</a>
-    <a href="#" onclick="showSection('server')"><i class="bi bi-hdd-network"></i> Server Engineering</a>
-    <a href="#" onclick="showSection('ml')"><i class="bi bi-bar-chart-line"></i> Machine Learning</a>
-    <a href="#" onclick="showSection('dl')"><i class="bi bi-cpu"></i> Deep Learning</a>
-    <a href="#" onclick="showSection('contact')"><i class="bi bi-person-lines-fill"></i> Contact</a>
-  </div>
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/6281249298194" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" class="whatsapp-float">
+  <i class="bi bi-whatsapp"></i>
+</a>
 
-  <div class="main">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container-fluid">
-        <span class="navbar-brand">Katgamind</span>
-      </div>
-    </nav>
+<style>
+  .whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25d366;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    z-index: 1050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+    user-select: none;
+  }
 
-    <div class="content">
-      <div class="hero">
-        <img src="https://cdn-icons-png.flaticon.com/512/906/906175.png" alt="Tech Logo">
-        <h1>Welcome to Katgamind</h1>
-        <p>Your gateway to Programming, Server Engineering, and AI Technologies.</p>
-      </div>
+  .whatsapp-float:hover {
+    background-color: #128c4a;
+    transform: scale(1.1);
+  }
+</style>
 
-      <div id="programming" class="content-section active-section">
-        <h2><i class="bi bi-code-slash"></i> Programming</h2>
-        <img src="https://cdn-icons-png.flaticon.com/512/919/919851.png" width="100" alt="Programming Icon">
-        <p>Explore modern programming languages like JavaScript, Python, Go, and Rust. Build dynamic web apps, games, and automation tools with elegant code.</p>
-      </div>
-
-      <div id="server" class="content-section">
-        <h2><i class="bi bi-hdd-network"></i> Server Engineering</h2>
-        <img src="https://cdn-icons-png.flaticon.com/512/4248/4248443.png" width="100" alt="Server Icon">
-        <p>Configure reliable servers, manage cloud infrastructure, and deploy scalable systems using Docker, Kubernetes, and more cutting-edge tools.</p>
-      </div>
-
-      <div id="ml" class="content-section">
-        <h2><i class="bi bi-bar-chart-line"></i> Machine Learning</h2>
-        <img src="https://cdn-icons-png.flaticon.com/512/4472/4472581.png" width="100" alt="ML Icon">
-        <p>Analyze data, train models, and make predictions with scikit-learn and pandas. Apply machine learning to drive smarter decisions.</p>
-      </div>
-
-      <div id="dl" class="content-section">
-        <h2><i class="bi bi-cpu"></i> Deep Learning</h2>
-        <img src="https://cdn-icons-png.flaticon.com/512/2306/2306110.png" width="100" alt="DL Icon">
-        <p>Build powerful neural networks using TensorFlow, Keras, and PyTorch. Develop intelligent systems with deep learning innovations.</p>
-      </div>
-
-      <div id="contact" class="content-section">
-        <h2><i class="bi bi-person-lines-fill"></i> Contact</h2>
-        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077063.png" width="80" alt="Contact Icon">
-        <p><strong>Contact Name:</strong> Fatih Ulumuddin</p>
-        <p><strong>Phone Number:</strong> 081249298194</p>
-      </div>
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <span class="navbar-brand">Katgamind</span>
+    <div>
+      <button class="btn btn-outline-light btn-sm mode-toggle" aria-label="Toggle dark mode" onclick="toggleDarkMode()">
+        <i class="bi bi-moon-stars"></i>
+      </button>
+      <button class="btn btn-outline-light btn-sm language-toggle" aria-label="Toggle language" onclick="toggleLanguage()">
+        <i class="bi bi-translate"></i>
+      </button>
     </div>
+  </nav>
+
+  <!-- Mobile Menu Toggle -->
+  <button class="mobile-menu" aria-label="Toggle menu" onclick="toggleSidebar()">
+    <i class="bi bi-list"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <nav id="sidebar" class="sidebar" aria-label="Sidebar menu">
+    <h4><i class="bi bi-layout-text-sidebar"></i> Menu</h4>
+    <a href="#" onclick="showSection('programming', this)" class="active" tabindex="0">
+      <i class="bi bi-code-slash"></i>
+      <span class="lang" data-en="Programming" data-id="Pemrograman"></span>
+    </a>
+    <a href="#" onclick="showSection('server', this)" tabindex="0">
+      <i class="bi bi-hdd-network"></i>
+      <span class="lang" data-en="Server Engineering" data-id="Rekayasa Server"></span>
+    </a>
+    <a href="#" onclick="showSection('ml', this)" tabindex="0">
+      <i class="bi bi-bar-chart-line"></i>
+      <span class="lang" data-en="Machine Learning" data-id="Pembelajaran Mesin"></span>
+    </a>
+    <a href="#" onclick="showSection('dl', this)" tabindex="0">
+      <i class="bi bi-cpu"></i>
+      <span class="lang" data-en="Deep Learning" data-id="Pembelajaran Mendalam"></span>
+    </a>
+    <a href="#" onclick="showSection('contact', this)" tabindex="0">
+      <i class="bi bi-person-lines-fill"></i>
+      <span class="lang" data-en="Contact" data-id="Kontak"></span>
+    </a>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main" role="main">
+    <main class="content" tabindex="-1">
+      <section class="hero" aria-label="Hero section">
+        <img src="https://cdn-icons-png.flaticon.com/512/906/906175.png" alt="Tech Logo" />
+        <h1>Welcome to Katgamind</h1>
+        <p class="lang" data-en="Your gateway to Programming, Server Engineering, and AI Technologies." data-id="Gerbang Anda ke Pemrograman, Rekayasa Server, dan Teknologi AI."></p>
+      </section>
+
+      <!-- Content Sections -->
+      <section id="programming" class="content-section active-section" tabindex="0" aria-label="Programming section">
+        <h2><i class="bi bi-code-slash"></i> <span class="lang" data-en="Programming" data-id="Pemrograman"></span></h2>
+        <p class="lang" data-en="Explore modern programming languages like JavaScript, Python, Go, and Rust." data-id="Jelajahi bahasa pemrograman modern seperti JavaScript, Python, Go, dan Rust."></p>
+      </section>
+
+      <section id="server" class="content-section" tabindex="0" aria-label="Server Engineering section">
+        <h2><i class="bi bi-hdd-network"></i> <span class="lang" data-en="Server Engineering" data-id="Rekayasa Server"></span></h2>
+        <p class="lang" data-en="Configure reliable servers and manage cloud infrastructure." data-id="Konfigurasi server yang andal dan kelola infrastruktur cloud."></p>
+      </section>
+
+      <section id="ml" class="content-section" tabindex="0" aria-label="Machine Learning section">
+        <h2><i class="bi bi-bar-chart-line"></i> <span class="lang" data-en="Machine Learning" data-id="Pembelajaran Mesin"></span></h2>
+        <p class="lang" data-en="Analyze data and train models with scikit-learn." data-id="Analisis data dan latih model dengan scikit-learn."></p>
+      </section>
+
+      <section id="dl" class="content-section" tabindex="0" aria-label="Deep Learning section">
+        <h2><i class="bi bi-cpu"></i> <span class="lang" data-en="Deep Learning" data-id="Pembelajaran Mendalam"></span></h2>
+        <p class="lang" data-en="Build neural networks using TensorFlow and PyTorch." data-id="Bangun jaringan saraf menggunakan TensorFlow dan PyTorch."></p>
+      </section>
+
+      <section id="contact" class="content-section" tabindex="0" aria-label="Contact section">
+        <h2><i class="bi bi-person-lines-fill"></i> <span class="lang" data-en="Contact" data-id="Kontak"></span></h2>
+        <p><strong>Fatih Ulumuddin</strong><br />081249298194</p>
+      </section>
+    </main>
   </div>
 
   <script>
-    function showSection(id) {
+    // Show selected section and set active menu item
+    function showSection(id, link) {
       document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active-section');
       });
       document.getElementById(id).classList.add('active-section');
-      document.querySelectorAll('.sidebar a').forEach(link => {
-        link.classList.remove('active');
-      });
-      event.target.classList.add('active');
+
+      document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+      if (link) link.classList.add('active');
+
+      // Hide sidebar on mobile after selection
+      if (window.innerWidth <= 768) {
+        toggleSidebar(false);
+      }
     }
+
+    // Toggle dark mode class on body
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    // Toggle language between English and Indonesian
+    function toggleLanguage() {
+      const currentLang = document.body.getAttribute('data-lang') || 'en';
+      const newLang = currentLang === 'en' ? 'id' : 'en';
+      document.body.setAttribute('data-lang', newLang);
+
+      document.querySelectorAll('.lang').forEach(el => {
+        el.textContent = el.getAttribute(`data-${newLang}`);
+      });
+    }
+
+    // Toggle sidebar visibility (used for mobile)
+    function toggleSidebar(forceState) {
+      const sidebar = document.getElementById('sidebar');
+      if (typeof forceState === 'boolean') {
+        sidebar.style.display = forceState ? 'block' : 'none';
+      } else {
+        sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
+      }
+    }
+
+    // Initialize page language and default active menu
+    document.body.setAttribute('data-lang', 'en');
+    toggleLanguage(); // set content to English initially
+
+    // Highlight default menu item on load
+    document.querySelector('.sidebar a.active')?.click();
   </script>
+<script>
+  // your existing functions...
+
+  // Add protection to block right-click and devtools keys
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'F12') e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') e.preventDefault();
+    if (e.metaKey && e.altKey && e.key.toLowerCase() === 'i') e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'j') e.preventDefault();
+    if (e.metaKey && e.altKey && e.key.toLowerCase() === 'j') e.preventDefault();
+    if (e.ctrlKey && e.key.toLowerCase() === 'u') e.preventDefault();
+    if (e.metaKey && e.key.toLowerCase() === 'u') e.preventDefault();
+  });
+</script>
+
 </body>
 </html>
